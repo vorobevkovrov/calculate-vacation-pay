@@ -13,21 +13,33 @@ import ru.vorobev.calculatevacationpay.service.CalculateVacationPay;
 
 import java.math.BigDecimal;
 
-//import static ru.vorobev.calculatevacationpay.controller.CalculateVacationPayController.BASE_URL;
+import static ru.vorobev.calculatevacationpay.controller.CalculateVacationPayController.BASE_URL;
 
 @Validated
 @Slf4j
 @RequiredArgsConstructor
-@RestController("/api/v1")
+@RestController(BASE_URL)
 public class CalculateVacationPayController {
-    private static final String BASE_URL = "/api/v1";
+    /**
+     * Base controller url.
+     */
+    public static final String BASE_URL = "/api/v1";
     private final CalculateVacationPay calculateVacationPay;
 
+    /**
+     * Get method to calculate vacation pay.
+     *
+     * @param employeeIncomeForYear total income.
+     * @param numberOfVacationDays  total vacation days.
+     * @return response.
+     */
     @GetMapping("/calculate")
-    public ResponseEntity<BigDecimal> calculateVacationPay(@RequestParam @NotNull(message = "ghfeiehn") BigDecimal employeeIncomeForYear,
-                                                           @RequestParam @NotNull(message = "int fuiewhugfhwu") int numberOfVacationDays) {
-        log.debug("");
-        return ResponseEntity.ok(calculateVacationPay.calculateVacationPay(employeeIncomeForYear, numberOfVacationDays));
+    public ResponseEntity<BigDecimal> calculateVacationPay(@RequestParam @NotNull BigDecimal employeeIncomeForYear,
+                                                           @RequestParam @NotNull int numberOfVacationDays) {
+        log.debug("calculateVacationPay() - start. employeeIncomeForYear = {} numberOfVacationDays = {}",
+                employeeIncomeForYear,
+                numberOfVacationDays);
+        return ResponseEntity.ok(calculateVacationPay
+                .calculateVacationPay(employeeIncomeForYear, numberOfVacationDays));
     }
 }
-//TODO проверка входящих параметров
